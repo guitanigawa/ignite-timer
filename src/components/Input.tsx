@@ -7,6 +7,7 @@ export default function Input(){
             Vou trabalhar em
             {" "}
             <TaskNameInput/>
+            {" "}
             durante
             {" "}
             <StepperInput/>

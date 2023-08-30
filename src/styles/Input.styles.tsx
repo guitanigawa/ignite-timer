@@ -11,7 +11,6 @@ export const TaskNameInput = styled.input.attrs({
     type: "text",
     placeholder:"Dê um nome para o seu projeto",
 })`
-   
 
     width: 17rem;
     padding: 0.5rem;
@@ -24,7 +23,11 @@ export const TaskNameInput = styled.input.attrs({
     color: ${props=>props.theme["white"]};
     font-size: 1.125rem;
     font-weight: 800;
-    text-align: center
+    text-align: center;
+
+    &:focus{
+        border-bottom: 2px solid ${props=>props.theme["green-500"]};
+    }
 `
 
 export const StepperInput = styled.input.attrs({
