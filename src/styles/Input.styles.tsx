@@ -38,5 +38,6 @@ export const StepperInput = styled.input.attrs({
     width: 4rem
 
 
+    
 
 `

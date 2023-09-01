@@ -2,12 +2,14 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     max-width: 70rem;
+    height: calc(100vh - 10rem);
 
     display: flex;
     align-items: center;
     justify-content: center;
- 
-    padding: 10rem 0;
+    
+    padding: 2.5rem;
+
     margin: auto;
 
     background-color: ${props=>props.theme["gray-800"]};
@@ -26,17 +28,21 @@ export const Logo = styled.img`
 export const NavButtonsContainer = styled.div`
     display: grid;
     grid-template-columns: auto auto;
-    gap: 1rem;
+    gap: 1.5rem;
     
     position: absolute;
     top: 2.5rem;
     right: 2.5rem;
 `
-export const NavButtons = styled.span`
-    :hover{
-        color: ${props=>props.theme["green-500"]}
+export const NavButton = styled.a`
+    &:hover{
+        color: ${props=>props.theme["green-500"]};
+        border-bottom: 2px solid ${props=>props.theme["green-500"]}
     }
 
     cursor: pointer;
     color: white;
+
+    border-bottom: 2px solid transparent;
+    padding: 0.3rem
 `
