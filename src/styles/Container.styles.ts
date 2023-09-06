@@ -33,16 +33,22 @@ export const NavButtonsContainer = styled.div`
     position: absolute;
     top: 2.5rem;
     right: 2.5rem;
-`
-export const NavButton = styled.a`
-    &:hover{
-        color: ${props=>props.theme["green-500"]};
-        border-bottom: 2px solid ${props=>props.theme["green-500"]}
+
+    a{
+        &:hover{
+            color: ${props=>props.theme["green-500"]};
+            border-bottom: 2px solid ${props=>props.theme["green-500"]}
+        }
+        
+        cursor: pointer;
+        color: white;
+
+        border-bottom: 2px solid transparent;
+        padding-bottom: 0.3rem;
+
+        &.active{
+            color: ${props=>props.theme["green-500"]};
+        }
     }
-
-    cursor: pointer;
-    color: white;
-
-    border-bottom: 2px solid transparent;
-    padding: 0.3rem
 `
+

@@ -1,16 +1,17 @@
-import { NavButton, NavButtonsContainer} from "../styles/Container.styles"
+import { NavLink } from "react-router-dom"
+import { NavButtonsContainer} from "../styles/Container.styles"
 import { Clock as ClockIcon, List} from "react-feather"
 
 export default function NavButtons(){
     return(
         <NavButtonsContainer>
-                <NavButton href="/">
+                <NavLink to="/">
                     <ClockIcon size="2rem"/>
-                </NavButton>
+                </NavLink>
 
-                <NavButton href="/history">
+                <NavLink to="/history">
                     <List size="2rem"/>
-                </NavButton>
+                </NavLink>
         </NavButtonsContainer>
     )
 

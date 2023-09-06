@@ -25,6 +25,10 @@ export const ButtonContainer = styled.button`
     &:hover{
         opacity: 0.9
     }
+
+    &:disabled{
+        opacity: 0.5
+    }
 `
 
 export const StartButtonTitle = styled.span`

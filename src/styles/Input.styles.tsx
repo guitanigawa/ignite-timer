@@ -9,7 +9,6 @@ export const Title = styled.h1`
 
 export const TaskNameInput = styled.input.attrs({
     type: "text",
-    placeholder:"Dê um nome para o seu projeto",
 })`
 
     width: 17rem;
@@ -28,12 +27,20 @@ export const TaskNameInput = styled.input.attrs({
     &:focus{
         border-bottom: 2px solid ${props=>props.theme["green-500"]};
     }
+
+    &::placeholder{
+        color: ${props=>props.theme["gray-500"]}
+    }
+
+    &::-webkit-calendar-picker-indicator{
+        display: none !important
+
+    }
 `
 
-export const StepperInput = styled.input.attrs({
+export const StepperInput = styled(TaskNameInput).attrs({
     type: "number",
-    max: "60",
-    min: "0"
+    step: 5
 })`
     width: 4rem
 
