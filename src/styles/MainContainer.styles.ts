@@ -1,7 +1,5 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const MainContainer = styled.div`
-    max-width: 40.5rem;
-
+  max-width: 40.5rem;
 `
-
