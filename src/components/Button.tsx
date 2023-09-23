@@ -1,13 +1,10 @@
 import { Pause, Play } from "react-feather";
 import { StartButtonContainer, StopButtonContainer } from "../styles/StartButton.styles";
-import { Cycle } from "../pages/Home";
+import { useCycles } from "../hooks/useCycles";
 
-interface ButtonProps{
-    activeCycle: Cycle | undefined,
-    stopCycle: ()=>void
-}
+export default function Button(){
 
-export function Button({ activeCycle, stopCycle }: ButtonProps){
+    const { activeCycle, stopCycle } = useCycles()
 
     return(
         activeCycle ? (

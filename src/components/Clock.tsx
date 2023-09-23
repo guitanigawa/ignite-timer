@@ -1,3 +1,4 @@
+import { useCycles } from '../hooks/useCycles'
 import {
   ClockContainer,
   Minutes,
@@ -6,13 +7,11 @@ import {
   SecondsContainer,
 } from '../styles/Clock.styles'
 
-interface ClockProps{
-  minutes: string,
-  seconds: string
-}
+export default function Clock() {
+  
+  const { activeCycleTime } = useCycles()
+  const { minutes, seconds } = activeCycleTime
 
-export default function Clock({minutes, seconds}: ClockProps) {
- 
   return (
     <ClockContainer>
       <MinutesContainer>

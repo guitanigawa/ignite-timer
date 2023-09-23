@@ -1,3 +1,4 @@
+import { useCycles } from '../hooks/useCycles'
 import {
   HistoryContainer,
   ListItem,
@@ -6,6 +7,9 @@ import {
 } from '../styles/History.styles'
 
 export default function History() {
+  const { cycles } = useCycles()
+
+
   return (
     <HistoryContainer>
       <h1>Meu histórico</h1>
@@ -18,67 +22,26 @@ export default function History() {
       </ListTitle>
 
       <ul>
-        <ListItem>
-          <label>Conserto de débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
+        { 
+          cycles.map(cycle=>{
+            
+            return(
+              <ListItem>
+                <label>{cycle.taskName}</label>
+                <label>{cycle.minutesAmount}</label>
+                <label>{cycle.startDate}</label>
+                <Status status={cycle.status.name} />
+              </ListItem>
+            )
 
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
-        <ListItem>
-          <label>Conserto dedadwdawdawdwadawdaw débitos técnicos</label>
-          <label>25 minutos</label>
-          <label>Há cerca de 2 meses</label>
-          <Status status="inProgress" />
-        </ListItem>
+
+          })
+
+
+        }
+      
+        
+        
       </ul>
     </HistoryContainer>
   )
