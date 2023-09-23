@@ -36,7 +36,7 @@ export const TaskNameInput = styled.input.attrs({
 `
 
 export const StepperInput = styled(TaskNameInput).attrs({
-  type: 'number',
+  type: "number",
   step: 5,
 })`
   width: 4rem;

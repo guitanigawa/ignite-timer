@@ -2,21 +2,28 @@ import {
   ClockContainer,
   Minutes,
   MinutesContainer,
+  Seconds,
+  SecondsContainer,
 } from '../styles/Clock.styles'
 
-export default function Clock() {
+interface ClockProps{
+  minutes: string,
+  seconds: string
+}
+
+export default function Clock({minutes, seconds}: ClockProps) {
  
   return (
     <ClockContainer>
       <MinutesContainer>
-        <Minutes>0</Minutes>
-        <Minutes>0</Minutes>
+        <Minutes>{minutes[0]}</Minutes>
+        <Minutes>{minutes[1]}</Minutes>
       </MinutesContainer>
       :
-      <MinutesContainer>
-        <Minutes>0</Minutes>
-        <Minutes>0</Minutes>
-      </MinutesContainer>
+      <SecondsContainer>
+        <Seconds>{seconds[0]}</Seconds>
+        <Seconds>{seconds[1]}</Seconds>
+      </SecondsContainer>
     </ClockContainer>
   )
 }

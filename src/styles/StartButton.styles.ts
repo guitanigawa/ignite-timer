@@ -1,13 +1,14 @@
 import styled from 'styled-components'
 
-export const ButtonContainer = styled.button`
+
+export const StartButtonContainer = styled.button`
   margin-top: 3.5rem;
 
   width: 100%;
 
   padding: 1rem;
 
-  background-color: ${(props) => props.theme['green-500']};
+  background-color: ${({ theme })=> theme["green-500"]};
 
   color: ${(props) => props.theme.white};
   font-weight: 800;
@@ -26,11 +27,11 @@ export const ButtonContainer = styled.button`
     opacity: 0.9;
   }
 
-  &:disabled {
-    opacity: 0.5;
+  span{
+    margin-left: 0.3rem
   }
 `
 
-export const StartButtonTitle = styled.span`
-  margin-left: 0.3rem;
+export const StopButtonContainer = styled(StartButtonContainer)`
+  background-color: ${({ theme })=>theme["red-500"]}
 `

@@ -1,14 +1,13 @@
 import { Title, TaskNameInput, StepperInput } from '../styles/Input.styles'
-import { ClockContainer, Minutes, MinutesContainer } from '../styles/Clock.styles'
 import { MainContainer } from '../styles/MainContainer.styles'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import zod from 'zod'
 import { useEffect, useState } from 'react'
-import { ButtonContainer, StartButtonTitle } from '../styles/StartButton.styles'
-import { Play } from 'react-feather'
 import { differenceInSeconds } from 'date-fns'
+import Clock from '../components/Clock'
+import { Button } from '../components/Button'
 
 const newCycleFormValidationSchema = zod.object({
     taskName: zod.string().min(1, 'Informe a tarefa'),
@@ -17,13 +16,17 @@ const newCycleFormValidationSchema = zod.object({
 
 type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
 
-interface Cycle extends NewCycleFormData {
+export interface Cycle extends NewCycleFormData {
     id: string,
-    startDate: Date
+    startDate: Date,
+    status: {
+        name: "finished" | "stopped" | "inProgress"
+        date?: Date
+    }
 }
 
 export default function Home() {
-    const { register, handleSubmit, watch, reset } = useForm<NewCycleFormData>({
+    const { register, handleSubmit, reset } = useForm<NewCycleFormData>({
         resolver: zodResolver(newCycleFormValidationSchema),
         defaultValues: {
             taskName: '',
@@ -35,13 +38,15 @@ export default function Home() {
     const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
     const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
-
     const handleCreateNewCycle = (data: NewCycleFormData) => {
         const newCycle: Cycle = {
             id: String(new Date().getTime()),
             taskName: data.taskName,
             minutesAmount: data.minutesAmount,
-            startDate: new Date()
+            startDate: new Date(),
+            status: {
+                name: "inProgress"
+            }
         }
 
         setCycles((state) => [...state, newCycle])
@@ -50,6 +55,23 @@ export default function Home() {
 
         reset()
 
+    }
+
+    const handleStopCycle = () => {
+        setCycles(state=>{
+            return (
+                state.map(cycle=>{
+                    if(activeCycleId === cycle.id){
+                        cycle.status.name = "stopped"
+                        cycle.status.date = new Date()
+                    }
+                    return cycle 
+                })
+            )
+        })
+
+        setActiveCycleId(null)
+        document.title = "Ignite Timer"
     }
 
     const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
@@ -79,13 +101,29 @@ export default function Home() {
     const minutes = minutesAmount.padStart(2, "0")
     const seconds = secondsAmount.padStart(2, "0")
 
+    console.log(cycles)
+
     useEffect(()=>{
         if(activeCycle) document.title = `${minutes}:${seconds}`
+        if(amountSecondsPassed === totalSeconds){
+            setCycles(state=>{
+                return (
+                    state.map(cycle=>{
+                        if(activeCycleId === cycle.id){
+                            cycle.status.name = "finished"
+                            cycle.status.date = new Date()
+                        }
+                        return cycle 
+                    })
+                )
+            })
+
+            setActiveCycleId(null)
+            document.title = "Ignite Timer"
+        }
     }, [minutes, seconds, activeCycle])
 
 
-    const task = watch('taskName')
-    const isButtonDisabled = !task
     return (
         <MainContainer>
             <form onSubmit={handleSubmit(handleCreateNewCycle)}>
@@ -95,7 +133,10 @@ export default function Home() {
                     <TaskNameInput
                         list="task-suggestions"
                         placeholder="Dê um nome para o seu projeto"
+                        disabled={!!activeCycle}
+                        
                         {...register('taskName')}
+
                     />
 
                     <datalist id="task-suggestions">
@@ -110,6 +151,8 @@ export default function Home() {
 
                     <StepperInput
                         placeholder="00"
+                        disabled={!!activeCycle}
+                        
                         {...register('minutesAmount', {
                             valueAsNumber: true,
                         })}
@@ -121,28 +164,13 @@ export default function Home() {
                 
                 </Title>
 
-                <ClockContainer>
-                    <MinutesContainer>
-                        <Minutes>{minutes[0]}</Minutes>
-                        <Minutes>{minutes[1]}</Minutes>
-                    </MinutesContainer>
-                    :
-                    <MinutesContainer>
-                        <Minutes>{seconds[0]}</Minutes>
-                        <Minutes>{seconds[1]}</Minutes>
-                    </MinutesContainer>
-                </ClockContainer>
-
+                <Clock minutes={minutes} seconds={seconds}/>
                 
-                <ButtonContainer 
-                    disabled={isButtonDisabled}
-                    type="submit"
-                >
-                    <Play/>
-                    <StartButtonTitle>
-                        Começar
-                    </StartButtonTitle>
-                </ButtonContainer>
+                <Button 
+                    activeCycle={activeCycle}
+                    stopCycle={handleStopCycle}
+                />
+                
             </form>
         </MainContainer>
     )
