@@ -10,14 +10,9 @@ const statusVariants = {
   stopped: 'red',
 }
 
-const statusTexts = {
-  finished: 'Concluído',
-  inProgress: 'Em andamento',
-  stopped: 'Interrompido',
-}
-
 export const HistoryContainer = styled.div`
   height: 100%;
+  width: 100%;
 
   padding: 4rem;
   padding-top: 6rem;
@@ -40,7 +35,7 @@ export const HistoryContainer = styled.div`
   }
 `
 
-export const ListItem = styled.div`
+export const ListItem = styled.li`
   list-style: none;
 
   display: grid;
@@ -82,10 +77,4 @@ export const Status = styled.span<StatusProps>`
     background-color: ${(props) => statusVariants[props.status]};
   }
 
-  &::after {
-    content: ${statusTexts.inProgress};
-
-    color: white;
-    font-size: 1rem;
-  }
 `

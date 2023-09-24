@@ -10,6 +10,7 @@ import { CyclesProvider } from './hooks/useCycles'
 export default function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
+      
       <CyclesProvider>
       
         <BrowserRouter>

@@ -94,6 +94,7 @@ export function CyclesProvider({ children } : React.PropsWithChildren ){
     const activeCycleTime = { minutes, seconds}
 
     useEffect(()=>{
+        
         if(activeCycle) document.title = `${minutes}:${seconds}`
         if(amountSecondsPassed === totalSeconds){
             setCycles(state=>{
@@ -112,8 +113,6 @@ export function CyclesProvider({ children } : React.PropsWithChildren ){
             document.title = "Ignite Timer"
         }
     }, [minutes, seconds, activeCycle])
-
-
 
 
     return(

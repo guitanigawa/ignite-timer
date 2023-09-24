@@ -9,6 +9,11 @@ import {
 export default function History() {
   const { cycles } = useCycles()
 
+  const statusTexts = {
+    finished: 'Concluído',
+    inProgress: 'Em andamento',
+    stopped: 'Interrompido',
+  }
 
   return (
     <HistoryContainer>
@@ -26,16 +31,18 @@ export default function History() {
           cycles.map(cycle=>{
             
             return(
-              <ListItem>
+              <ListItem key={cycle.id}>
                 <label>{cycle.taskName}</label>
                 <label>{cycle.minutesAmount}</label>
-                <label>{cycle.startDate}</label>
-                <Status status={cycle.status.name} />
+                <label>{}</label>
+                <Status status={cycle.status.name}>
+                  {statusTexts[cycle.status.name]}
+                </Status>
               </ListItem>
             )
 
 
-          })
+            })
 
 
         }
