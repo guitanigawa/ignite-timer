@@ -1,8 +1,10 @@
-import { createContext, useEffect, useState, useContext } from "react";
+import { createContext, useEffect, useState, useContext, useReducer } from "react";
 import { NewCycleFormData } from "../pages/Home"
 import { differenceInSeconds } from "date-fns";
+import { cyclesReducer } from "../reducers/cycles/reducer";
+import { Actions } from "../reducers/cycles/actions";
 
-interface Cycle extends NewCycleFormData {
+ export interface Cycle extends NewCycleFormData {
     id: string,
     startDate: Date,
     status: {
@@ -23,14 +25,19 @@ interface CyclesContext{
 }
 
 
+
+
 const CyclesContext = createContext<CyclesContext>({} as CyclesContext)
 
 export function CyclesProvider({ children } : React.PropsWithChildren ){
     
-    const [cycles, setCycles] = useState<Cycle[]>([])
-    const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
-    const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
+    const [cyclesState, cyclesDispatch] = useReducer(cyclesReducer, {
+        cycles: [],
+        activeCycleId: null
+    })
+    const [amountSecondsPassed, setAmountSecondsPassed] = useState<number>(0)
 
+    const { addNewCycle, markCycleStopped, markCycleFinished } = Actions 
 
     const createNewCycle = (data: NewCycleFormData) => {
         const newCycle: Cycle = {
@@ -43,27 +50,20 @@ export function CyclesProvider({ children } : React.PropsWithChildren ){
             }
         }
 
-        setCycles((state) => [...state, newCycle])
-        setActiveCycleId(newCycle.id)
+        cyclesDispatch(addNewCycle(newCycle))
+        
     }
 
+    
     const stopCycle = () => {
-        setCycles(state=>{
-            return (
-                state.map(cycle=>{
-                    if(activeCycleId === cycle.id){
-                        cycle.status.name = "stopped"
-                        cycle.status.date = new Date()
-                    }
-                    return cycle 
-                })
-            )
-        })
+       
+        cyclesDispatch(markCycleStopped())
 
-        setActiveCycleId(null)
         document.title = "Ignite Timer"
     }
 
+    const { cycles, activeCycleId } = cyclesState
+    
     const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
 
     useEffect(()=>{
@@ -97,19 +97,9 @@ export function CyclesProvider({ children } : React.PropsWithChildren ){
         
         if(activeCycle) document.title = `${minutes}:${seconds}`
         if(amountSecondsPassed === totalSeconds){
-            setCycles(state=>{
-                return (
-                    state.map(cycle=>{
-                        if(activeCycleId === cycle.id){
-                            cycle.status.name = "finished"
-                            cycle.status.date = new Date()
-                        }
-                        return cycle 
-                    })
-                )
-            })
+            
+            cyclesDispatch(markCycleFinished())
 
-            setActiveCycleId(null)
             document.title = "Ignite Timer"
         }
     }, [minutes, seconds, activeCycle])

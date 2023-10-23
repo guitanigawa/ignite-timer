@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { useCycles } from '../hooks/useCycles'
 import {
   HistoryContainer,
@@ -22,7 +23,7 @@ export default function History() {
       <ListTitle>
         <label>Tarefa</label>
         <label>Duração</label>
-        <label>Início</label>
+        <label>Data</label>
         <label>Status</label>
       </ListTitle>
 
@@ -33,8 +34,8 @@ export default function History() {
             return(
               <ListItem key={cycle.id}>
                 <label>{cycle.taskName}</label>
-                <label>{cycle.minutesAmount}</label>
-                <label>{}</label>
+                <label>{cycle.minutesAmount} minutos</label>
+                <label>{format(cycle.startDate, "dd/MM/yyyy")}</label>
                 <Status status={cycle.status.name}>
                   {statusTexts[cycle.status.name]}
                 </Status>
